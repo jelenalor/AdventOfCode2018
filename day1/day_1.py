@@ -1,3 +1,5 @@
+# https://adventofcode.com/2018/about
+
 # DAY 1
 with open("input.txt") as f:
     data = f.readlines()
