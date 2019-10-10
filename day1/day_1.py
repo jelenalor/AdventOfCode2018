@@ -1,6 +1,5 @@
 #
 
-
 with open("input.txt") as f:
     data = f.readlines()
     data = [int(i) for i in data]
