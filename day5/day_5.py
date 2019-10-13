@@ -1,3 +1,4 @@
+import string
 
 # input - polymers:
 # type -> the same letter
@@ -9,6 +10,8 @@
 #
 
 # reacts -> aA or Aa   Not aa AA
+test = list('dabAcCaCBAcCcaDA')
+
 
 with open("input.txt") as f:
     data = f.readlines()
@@ -34,37 +37,61 @@ def isType(t1, t2):
         return False
 
 
-current_index = 1
-while current_index < len(text):
-
-    # if deleted check again the same index
-    round = True
-    while round:
-        # extract current and future value
-        t1 = text[current_index]
-        t2 = text[current_index - 1]
-        #  check current_index and future_index
+def my_solution(text):
+    # print(text)
+    my_text = text
+    current_index = 1
+    while current_index < len(my_text):
         # print(current_index)
-        # print("t1, t2 - %s - %s" % (t1, t2))
-        if isType(t1, t2) and not isPolarity(t1, t2):
-            # print("deleted %s %s" % (text[current_index], text[current_index - 1]))
-            del text[current_index]
-            del text[current_index - 1]
-            if current_index > 1:
-                current_index -= 1
+        # if deleted check again the same index
+        round = True
+        while round:
+            # extract current and future value
+            t1 = my_text[current_index]
+            t2 = my_text[current_index - 1]
+            #  check current_index and future_index
+            if isType(t1, t2) and not isPolarity(t1, t2):
+                del my_text[current_index]
+                del my_text[current_index - 1]
+                if current_index > 1:
+                    current_index -= 1
+                else:
+                    current_index = 1
+                continue
             else:
-                current_index = 1
-            # print("upd text len", len(text))
-            # print("upd text", text[:30])
-            continue
-        else:
-            round = False
-            current_index += 1
-            break
+                round = False
+                current_index += 1
+                break
 
-print(len(text)-1)
+    return len(my_text)-1
 
 
+def my_solution2(text):
+    # for each letter in alphabet
+    # remove the letter and capital letter
+    # apply my_solution to the 'new'text
+    # store solutions
+    my_dict = {}
+    for i in string.ascii_lowercase:
+        my_text = text
+        i_c = i.capitalize()
+        # print("i", i)
+        # print("i_c", i_c)
+        if i in my_text:
+            my_text = [l for l in my_text if l != i]
+        if i_c in my_text:
+            my_text = [l for l in my_text if l != i_c]
+        # print("text", my_text)
+        result = my_solution(my_text)
+        my_dict[i] = result
+    # print(my_dict)
+    result = 100000
+    for j in my_dict.keys():
+        if my_dict[j] < result:
+            result = my_dict[j]
 
+    return result
+
+print(my_solution2(text))
 
 
