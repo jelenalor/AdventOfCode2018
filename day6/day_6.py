@@ -71,4 +71,28 @@ def my_solution(test):
     return result
 
 
-print(my_solution(data))
+def populateGrid2(grid, test):
+    # for each point calculate distance and sum all distances to all other points
+    # if actual point then capital letter
+    for row in range(grid.shape[0]):
+        for col in range(grid.shape[1]):
+            point = (col, row)
+            # find lowest dist
+            total_dist = 0
+            for k in test:
+                dist = manhattanDistance(point, k)
+                total_dist += dist
+            if total_dist < 10000:
+                grid[point[1], point[0]] = 1
+    return grid
+
+
+def my_solution2(test):
+    dim_col, dim_row = find_size(test)
+    grid = np.zeros((dim_row + 1, dim_col + 1))
+    grid = populateGrid2(grid, test)
+    v, c = np.unique(grid, return_counts=True)
+    return v, c
+
+
+print(my_solution2(data))
